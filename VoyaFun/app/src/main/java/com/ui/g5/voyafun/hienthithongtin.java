@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -21,6 +22,7 @@ public class hienthithongtin extends AppCompatActivity {
 
     TextView gioithieu, lehoi, trochoi, thamquan, tinnhan;
     ImageView trangchu, dienthoai, yeuthich;
+    Button datve;
     WebView webView;
     ProgressBar bar;
 
@@ -76,6 +78,18 @@ public class hienthithongtin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Gioithieu();
+            }
+        });
+
+        datve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatveOnline();
+            }
+
+            public void DatveOnline() {
+                Intent myBooking = new Intent(hienthithongtin.this, Datve.class);
+                startActivity(myBooking);
             }
         });
 
@@ -212,6 +226,7 @@ public class hienthithongtin extends AppCompatActivity {
         tinnhan     =(TextView)findViewById(R.id.txtTinnhan);
         dienthoai   =findViewById(R.id.imgDienthoai);
         yeuthich    = (ImageView) findViewById(R.id.imgYeuthich);
+        datve       = (Button)findViewById(R.id.btnDatve);
     }
 
     public void Gioithieu() {

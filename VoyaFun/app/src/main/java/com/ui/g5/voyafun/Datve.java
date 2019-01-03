@@ -2,11 +2,13 @@ package com.ui.g5.voyafun;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -235,14 +237,40 @@ public class Datve extends AppCompatActivity {
             dialog.show();
 
         }else{
-            dialogConfirm = new Dialog(Datve.this);
+           /* dialogConfirm = new Dialog(Datve.this);
             dialogConfirm.setTitle("Xác nhận mua vé");
             dialogConfirm.setContentView(R.layout.datve_xacnhan);
-            dialogConfirm.show();
+            dialogConfirm.show();*/
+
+            ShowDialog();
         }
     }
 
-    public void XacnhanKhong(View view){
+    private void ShowDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Datve.this);
+        builder.setTitle("Suoitien.com");
+        builder.setMessage("Bạn xác nhận muốn mua vé?");
+        builder.setCancelable(false);
+        builder.setNegativeButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                String msg = Message();
+                new ConfirmAsyncTask(Datve.this).execute(msg);
+            }
+        });
+        builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+   /* public void XacnhanKhong(View view){
         if(dialogConfirm.isShowing()){
             dialogConfirm.dismiss();
         }
@@ -254,7 +282,7 @@ public class Datve extends AppCompatActivity {
         }
         String msg = Message();
         new ConfirmAsyncTask(Datve.this).execute(msg);
-    }
+    }*/
 
     class ConfirmAsyncTask extends AsyncTask<String,Void,Boolean>{
 
@@ -279,19 +307,20 @@ public class Datve extends AppCompatActivity {
             if(dialog.isShowing()){
                 dialog.dismiss();
             }
-            String str = "";
-            if(aVoid){
-                str = "Đặt vé thành công! Vui lòng kiểm tra Mail";
-            }else{
-                str = "Đặt vé thất bại! Vui lòng thử lại";
-            }
 
-            Dialog dialog = new Dialog(Datve.this);
-            dialog.setTitle("ĐẶT VÉ");
-            dialog.setContentView(R.layout.datve_ketqua);
-            tvAlert = (TextView)dialog.findViewById(R.id.tvAlert);
-            tvAlert.setText(str);
-            dialog.show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Datve.this);
+            builder.setTitle("Suoitien.com");
+            builder.setMessage("Đặt vé thành công vui lòng kiểm tra mail.");
+            builder.setCancelable(false);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
 
         @Override
