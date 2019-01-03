@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:title="Signin"
+    android:id="@+id/itemsignin"/>
+    <item android:title="map"
+        android:id="@+id/itemmap"/>
+    <item android:title="share location"
+        android:id="@+id/itemlocation"/>
+</menu>

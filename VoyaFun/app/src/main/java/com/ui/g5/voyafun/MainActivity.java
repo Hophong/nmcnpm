@@ -12,11 +12,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,19 +26,27 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     TextView gioithieu, lehoi, trochoi, thamquan, tinnhan;
-    ImageView dienthoai;
+    ImageView dienthoai,hambuger;
     Button datve;
     WebView webView;
     ProgressBar bar;
-
-
+    boolean signin=false;
+    String user="",email="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent intent = getIntent();
+            user=(String)  intent.getStringExtra("username");
+            email=(String) intent.getStringExtra("email");
+            signin=(Boolean) intent.getBooleanExtra("signin",false);
         Anhxa();
-
+        hambuger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showmenu();
+            }
+        });
         gioithieu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +136,50 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("http://www.suoitien.com/");
 
     }
+    private void showmenu()
+    {
+        if(signin==false) {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, hambuger);
+            popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.itemsignin: {
+                            signin=true;
+                            Intent intent = new Intent(MainActivity.this, SigninActivity.class);
+                            //intent.putExtra("signin",signin);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        }
 
+
+                    }
+                    return false;
+                }
+            });
+            popupMenu.show();
+        }
+        else
+        {
+            PopupMenu popupMenu = new PopupMenu(MainActivity.this, hambuger);
+            popupMenu.getMenuInflater().inflate(R.menu.menu1, popupMenu.getMenu());
+            popupMenu.getMenu().getItem(0).setTitle("Username:"+user);
+            popupMenu.getMenu().getItem(1).setTitle("Email:"+email);
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+
+
+                    }
+                    return false;
+                }
+            });
+            popupMenu.show();
+        }
+    }
     private void Anhxa() {
         gioithieu   = (TextView)findViewById(R.id.txtGioithieu);
         lehoi       = (TextView)findViewById(R.id.txtLehoi);
@@ -137,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         bar         =(ProgressBar) findViewById(R.id.progressBar2);
         tinnhan     =(TextView)findViewById(R.id.txtTinnhan);
         dienthoai   =(ImageView)findViewById(R.id.imgDienthoai);
-
+        hambuger=(ImageView) findViewById(R.id.hambuger);
     }
 
     public void DatveOnline() {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="User"
+        android:id="@+id/itemUser"/>
+    <item android:title="Email"
+        android:id="@+id/itemEmail"/>
+    <item android:title="map"
+        android:id="@+id/itemmap"/>
+    <item android:title="share location"
+        android:id="@+id/itemlocation"/>
+    <item android:title="signout"
+        android:id="@+id/itemsignout"/>
+</menu>
