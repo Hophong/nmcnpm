@@ -1,8 +1,10 @@
 package com.ui.g5.voyafun;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +38,7 @@ public class tinnhan extends AppCompatActivity {
                     dialog.setTitle("Cảnh báo");
                     dialog.setContentView(R.layout.datve_soluong);
                     TextView tvAlert = (TextView) dialog.findViewById(R.id.tvAlert);
-                    tvAlert.setText("Không được để trống");
+                    tvAlert.setText("Vui lòng điền thông tin.");
                     dialog.show();
                 } else {
                     String msg = Message();
@@ -77,14 +79,19 @@ public class tinnhan extends AppCompatActivity {
             if(dialog.isShowing()){
                 dialog.dismiss();
             }
-            String str = "Cảm ơn ý kiến của bạn";
 
-            Dialog dialog = new Dialog(tinnhan.this);
-            dialog.setTitle("TIN NHẮN");
-            dialog.setContentView(R.layout.datve_ketqua);
-            TextView tvAlert = (TextView)dialog.findViewById(R.id.tvAlert);
-            tvAlert.setText(str);
-            dialog.show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(tinnhan.this);
+            builder.setTitle("Suoitien.com");
+            builder.setMessage("Xin chân thành cảm ơn bạn đã đóng góp ý kiến cho chúng tôi.\nChúc bạn có một chuyến tham quan vui vẻ.");
+            builder.setCancelable(false);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
 
         @Override

@@ -8,13 +8,12 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +21,11 @@ import android.widget.Toast;
 public class hienthithongtin extends AppCompatActivity {
 
     TextView gioithieu, lehoi, trochoi, thamquan, tinnhan;
-    ImageView trangchu, dienthoai, yeuthich,hambuger;
+    ImageView trangchu, dienthoai, yeuthich;
+    Button datve;
     WebView webView;
     ProgressBar bar;
-    boolean signin=false;
-    String user="",email="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,24 +43,9 @@ public class hienthithongtin extends AppCompatActivity {
 
         // hiện thông tin
         HienThi(key, Id);
-        Intent intent = getIntent();
-        user=(String)  intent.getStringExtra("username");
-        email=(String) intent.getStringExtra("email");
-        signin=(Boolean) intent.getBooleanExtra("signin",false);
-        if(user==null) signin=false;
-        Anhxa();
-        yeuthich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        hambuger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showmenu();
-            }
-        });
+        Anhxa();
+
         trangchu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +78,18 @@ public class hienthithongtin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Gioithieu();
+            }
+        });
+
+        datve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatveOnline();
+            }
+
+            public void DatveOnline() {
+                Intent myBooking = new Intent(hienthithongtin.this, Datve.class);
+                startActivity(myBooking);
             }
         });
 
@@ -220,72 +216,7 @@ public class hienthithongtin extends AppCompatActivity {
 
         }
     }
-    private void showmenu()
-    {
-        if(signin==false) {
-            PopupMenu popupMenu = new PopupMenu(this, hambuger);
-            popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.itemsignin: {
-                            Intent intent = new Intent(hienthithongtin.this, SigninActivity.class);
-                            //intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            finish();
-                            break;
-                        }
 
-                        case R.id.iteminfor:
-                        {
-                            Intent intent=new Intent(hienthithongtin.this,ThongtinActivity.class);
-                            intent.putExtra("username",user);
-                            intent.putExtra("email",email);
-                            intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            break;
-                        }
-                    }
-                    return false;
-                }
-            });
-            popupMenu.show();
-        }
-        else
-        {
-            PopupMenu popupMenu = new PopupMenu(this, hambuger);
-            popupMenu.getMenuInflater().inflate(R.menu.menu1, popupMenu.getMenu());
-            popupMenu.getMenu().getItem(0).setTitle("Username:"+user);
-            popupMenu.getMenu().getItem(1).setTitle("Email:"+email);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.itemsignout: {
-                            signin=true;
-                            Intent intent = new Intent(hienthithongtin.this, MainActivity.class);
-                            //intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            finish();
-                            break;
-                        }
-                        case R.id.iteminfor:
-                        {
-                            Intent intent=new Intent(hienthithongtin.this,ThongtinActivity.class);
-                            intent.putExtra("username",user);
-                            intent.putExtra("email",email);
-                            intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            break;
-                        }
-                    }
-                    return false;
-                }
-            });
-            popupMenu.show();
-        }
-    }
     private void Anhxa() {
         gioithieu   = (TextView)findViewById(R.id.txtGioithieu);
         trangchu    = (ImageView) findViewById(R.id.home);
@@ -295,46 +226,31 @@ public class hienthithongtin extends AppCompatActivity {
         tinnhan     =(TextView)findViewById(R.id.txtTinnhan);
         dienthoai   =findViewById(R.id.imgDienthoai);
         yeuthich    = (ImageView) findViewById(R.id.imgYeuthich);
-        hambuger=(ImageView) findViewById(R.id.hambuger);
+        datve       = (Button)findViewById(R.id.btnDatve);
     }
 
     public void Gioithieu() {
         Intent intent = new Intent(this, Gioithieu.class);
-        intent.putExtra("username",user);
-        intent.putExtra("email",email);
-        intent.putExtra("signin",true);
         startActivity(intent);
     }
 
     public void Trangchu() {
         Intent myHome = new Intent(this, MainActivity.class);
-        myHome.putExtra("username",user);
-        myHome.putExtra("email",email);
-        myHome.putExtra("signin",true);
         startActivity(myHome);
     }
 
     public void Trochoi() {
         Intent game = new Intent(this, trochoi.class);
-        game.putExtra("username",user);
-        game.putExtra("email",email);
-        game.putExtra("signin",true);
         startActivity(game);
     }
 
     public void Lehoi() {
         Intent myFestival = new Intent(this, lehoi.class);
-        myFestival.putExtra("username",user);
-        myFestival.putExtra("email",email);
-        myFestival.putExtra("signin",true);
         startActivity(myFestival);
     }
 
     public void Thamquan() {
         Intent myVisit = new Intent(this, Thamquan.class);
-        myVisit.putExtra("username",user);
-        myVisit.putExtra("email",email);
-        myVisit.putExtra("signin",true);
         startActivity(myVisit);
     }
 
