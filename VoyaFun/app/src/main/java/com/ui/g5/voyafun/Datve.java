@@ -1,13 +1,17 @@
 package com.ui.g5.voyafun;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +30,17 @@ import java.util.Calendar;
 public class Datve extends AppCompatActivity {
 
     TextView lehoi, trochoi, thamquan,gioithieu;
-    EditText edtNgaythamquan,edtslNguoilon,edtslTreem;
+    EditText edtNgaythamquan,edtslNguoilon,edtslTreem,edtTong,edtHoten,edtDienthoai;
     Button btnDatve;
     Dialog dialogConfirm;
     TextView tvAlert;
     ImageView trangchu;
+    String username_admin="nmcnpm.voyafun@gmail.com";
+    String password_admin="1597532846";
+    String username_user="user.voyafun@gmail.com";
+    String password_user="1597532846";
+    int price_adult = 120;
+    int price_child = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +100,49 @@ public class Datve extends AppCompatActivity {
             }
         });
 
+        edtslNguoilon.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                edtTong.setText("0");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String adult = edtslNguoilon.getText().toString();
+                String child = edtslTreem.getText().toString();
+                if(!adult.isEmpty() && !child.isEmpty()) {
+                    String price = String.valueOf(Integer.valueOf(edtslNguoilon.getText().toString()) * price_adult + Integer.valueOf(edtslTreem.getText().toString()) * price_child);
+                    edtTong.setText(price + "000" + " VND");
+                }
+            }
+        });
+
+        edtslTreem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                edtTong.setText("0");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String adult = edtslNguoilon.getText().toString();
+                String child = edtslTreem.getText().toString();
+                if(!adult.isEmpty() && !child.isEmpty()) {
+                    String price = String.valueOf(Integer.valueOf(edtslNguoilon.getText().toString()) * price_adult + Integer.valueOf(edtslTreem.getText().toString()) * price_child);
+                    edtTong.setText(price + "000" + " VND");
+                }
+            }
+        });
     }
 
     private void Anhxa() {
@@ -101,6 +155,9 @@ public class Datve extends AppCompatActivity {
         btnDatve = (Button)this.findViewById(R.id.btnDatve);
         edtslNguoilon = (EditText)this.findViewById(R.id.edtslNguoilon);
         edtslTreem = (EditText)this.findViewById(R.id.edtslTreem);
+        edtTong = (EditText)this.findViewById(R.id.edtTong);
+        edtHoten = (EditText)this.findViewById(R.id.edtHoten);
+        edtDienthoai = (EditText)this.findViewById(R.id.edtDienthoai);
     }
 
     public void Trangchu() {
@@ -158,17 +215,15 @@ public class Datve extends AppCompatActivity {
 
     private void confirm(){
         String slnl=edtslNguoilon.getText().toString(), slte=edtslTreem.getText().toString();
-        if(slnl.equals("") || slnl.equals("0")){
-            slnl="0";
-        }
-        if(slte.equals("") || slte.equals("0")){
-            slte="0";
-        }
+        String name = edtHoten.getText().toString();
+        String phone = edtDienthoai.getText().toString();
+        String date = edtNgaythamquan.getText().toString();
+
         String contextAlert = "";
         if(slnl.equals("0")  && slte.equals("0")){
             contextAlert="Tổng số lượng vé phải khác 0!";
-        }else if(edtNgaythamquan.getText().toString().equals("")){
-            contextAlert="Ngày tham quan không được để trống!";
+        }else if(name.isEmpty() || phone.isEmpty() || date.isEmpty() || slnl.isEmpty() || slte.isEmpty()){
+            contextAlert="Không được để trống thông tin!";
         }
 
         if(!contextAlert.isEmpty()) {
@@ -197,72 +252,65 @@ public class Datve extends AppCompatActivity {
         if(dialogConfirm.isShowing()){
             dialogConfirm.dismiss();
         }
-        new Sending_mail_automatically().execute("qphongqh@gmail.com","Demo sending email automatically","Succeeded");
+        String msg = Message();
+        new ConfirmAsyncTask(Datve.this).execute(msg);
     }
 
-    class Sending_mail_automatically extends AsyncTask<String,Void,Boolean> {
+    class ConfirmAsyncTask extends AsyncTask<String,Void,Boolean>{
 
-        String sub ;                                     // Tiêu đề
-        Mail m ;                                         // Đối tượng Mail
-        String[] toArr ;                                 // Mảng tên mail nhận ( Đoạn code dưới chỉ làm cho 1 mail nhận)
-        boolean ret=true;                               // Xác nhận gửi thành công
+        ProgressDialog dialog;
 
-        public Sending_mail_automatically() {
-
+        public ConfirmAsyncTask(Activity activity) {
+            super();
+            dialog = new ProgressDialog(activity);
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Khởi tạo Mail người gửi
-            m = new Mail("faqofo@gmail.com", "03031303");
+            dialog.setTitle("ĐẶT VÉ");
+            dialog.setMessage("Đang xử lý ...");
+            dialog.show();
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            String msg = "Đặt vé thành công! Vui lòng kiểm tra Mail";
-            if(ret == false){
-                msg = "Đặt vé thất bại";;
+        protected void onPostExecute(Boolean aVoid) {
+            super.onPostExecute(aVoid);
+            if(dialog.isShowing()){
+                dialog.dismiss();
             }
-            Toast.makeText(Datve.this, msg, Toast.LENGTH_LONG).show();
-        }
+            String str = "";
+            if(aVoid){
+                str = "Đặt vé thành công! Vui lòng kiểm tra Mail";
+            }else{
+                str = "Đặt vé thất bại! Vui lòng thử lại";
+            }
 
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-
+            Dialog dialog = new Dialog(Datve.this);
+            dialog.setTitle("ĐẶT VÉ");
+            dialog.setContentView(R.layout.datve_ketqua);
+            tvAlert = (TextView)dialog.findViewById(R.id.tvAlert);
+            tvAlert.setText(str);
+            dialog.show();
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-
-            // Lấy tên mail người nhận
-            toArr = new String[] {strings[0]};
-
-            // Gửi từ đâu
-            m.setFrom("faqofo@gmail.com");
-            //Gửi đến đâu
-            m.setTo(toArr);
-
-            // Lấy tiêu đề
-            sub = strings[1] ;
-            m.setSubject(sub);
-            // Set nội dung
-            m.setBody(strings[2]);
-            try {
-
-                if (m.send()) {
-                    //successful
-                } else {
-                    ret = false;
-                    //failure
-                }
-            } catch (Exception e) {
-
-                Log.e("MailApp", "Could not send email", e);
-            }
-            return  ret;
+            new SendMail().execute(username_user, password_user, username_admin, "ĐẶT VÉ", strings[0]);
+            new SendMail().execute(username_admin, password_admin, username_user, "ĐẶT VÉ THÀNH CÔNG", strings[0]);
+            return true;
         }
     }
+
+    public String Message(){
+        String nguoidat = "Tên khách hàng: " + edtHoten.getText().toString();
+        String slvenguoilon = "Vé người lớn: " + edtslNguoilon.getText().toString();
+        String slvetreem = "Vé trẻ em: " + edtslTreem.getText().toString();
+        String ngaythamquan = "Ngày tham quan: " + edtNgaythamquan.getText().toString();
+        String tongcong = "Tổng cộng: " + edtTong.getText().toString();
+        return nguoidat + System.getProperty("line.separator") + slvenguoilon +
+                System.getProperty("line.separator") + slvetreem + System.getProperty("line.separator") +
+                ngaythamquan + System.getProperty("line.separator") + tongcong;
+    }
+
 }
