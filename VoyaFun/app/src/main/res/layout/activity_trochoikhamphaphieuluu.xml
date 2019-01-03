@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_marginTop="3dp"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#050c5c">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Liên hệ: (028) 39632483"
+            android:layout_marginLeft="5dp"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="| Fax: 02839633073 "
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="0.8"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="0dp"
+        android:background="#299b47"
+        >
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/home"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/txtGioithieu"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Giới thiệu"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#fafafa"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtTrochoi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Trò chơi"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#faf9f9"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtLehoi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Lễ hội"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#f9f7f7"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtThamquan"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Tham quan"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="#fcfafa"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="5dp"/>
+
+        <ImageView
+            android:id="@+id/hambuger"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/humburger"
+            android:layout_gravity="center"
+            />
+
+
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/listLehoi"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="8.7">
+
+
+    </ListView>
+
+
+
+</LinearLayout>

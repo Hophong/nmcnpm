@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <WebView
+        android:id="@+id/webViewHienThi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+
+        />
+
+    <LinearLayout
+        android:layout_width="115dp"
+        android:layout_height="33dp"
+        android:background="@drawable/frame"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/mes"/>
+
+        <TextView
+            android:id="@+id/txtTinnhan"
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Tin nhắn"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#fdf503"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:background="#050c5c">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Liên hệ: (028) 39632483"
+            android:layout_marginLeft="5dp"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="| Fax: 02839633073 "
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="45dp"
+        android:background="#299b47"
+        android:layout_below="@+id/header"
+        >
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/home"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/txtGioithieu"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Giới thiệu"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#fafafa"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtTrochoi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Trò chơi"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#faf9f9"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtLehoi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Lễ hội"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#f9f7f7"
+            android:layout_marginLeft="8dp"/>
+
+        <TextView
+            android:id="@+id/txtThamquan"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Tham quan"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="#fcfafa"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="5dp"/>
+
+        <ImageView
+            android:id="@+id/hambuger"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/humburger"
+            android:layout_gravity="center"
+            />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/progressBar2"
+        />
+
+    <ImageView
+        android:id="@+id/imgDienthoai"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/phone"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="130dp"
+        android:layout_marginRight="30dp"/>
+
+
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:background="#0c136c"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="ĐẶT VÉ ONLINE"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textColor="#fffc3c"
+            android:fontFamily="serif"/>
+
+        <Button
+            android:id="@+id/btnDatve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt vé"
+            android:textSize="22dp"
+            android:textColor="#050c5c"
+            android:background="#d2dcf4"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
