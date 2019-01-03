@@ -1,14 +1,10 @@
 package com.ui.g5.voyafun;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -23,24 +19,39 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView gioithieu, lehoi, trochoi, thamquan, tinnhan;
-    ImageView dienthoai,hambuger;
+    ImageView dienthoai, hambuger;
     Button datve;
     WebView webView;
     ProgressBar bar;
-    boolean signin=false;
-    String user="",email="";
+    boolean signin = false;
+    String user = "", email = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Intent intent = getIntent();
-            user=(String)  intent.getStringExtra("username");
-            email=(String) intent.getStringExtra("email");
-            signin=(Boolean) intent.getBooleanExtra("signin",false);
-            if(user==null) signin=false;
+        user = (String) intent.getStringExtra("username");
+        email = (String) intent.getStringExtra("email");
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        if (isLoggedIn) {
+            signin = (Boolean) intent.getBooleanExtra("signin", true);
+        } else {
+            signin = (Boolean) intent.getBooleanExtra("signin", false);
+        }
+
         Anhxa();
         hambuger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,15 +146,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         webView.setWebViewClient(new MainActivity.myWebclient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://www.suoitien.com/");
 
     }
-    private void showmenu()
-    {
-        if(signin==false) {
+
+    private void showmenu() {
+        if (signin == false) {
             PopupMenu popupMenu = new PopupMenu(MainActivity.this, hambuger);
             popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -151,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.itemsignin: {
+                            signin=true;
                             Intent intent = new Intent(MainActivity.this, SigninActivity.class);
                             //intent.putExtra("signin",signin);
                             startActivity(intent);
@@ -167,39 +178,32 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
 
+
                     }
                     return false;
                 }
             });
             popupMenu.show();
-        }
-        else
-        {
+        } else {
             PopupMenu popupMenu = new PopupMenu(MainActivity.this, hambuger);
             popupMenu.getMenuInflater().inflate(R.menu.menu1, popupMenu.getMenu());
-            popupMenu.getMenu().getItem(0).setTitle("Username:"+user);
-            popupMenu.getMenu().getItem(1).setTitle("Email:"+email);
+
+            if (user == null) {
+                popupMenu.getMenu().getItem(0).setTitle("Username");
+            } else {
+                popupMenu.getMenu().getItem(0).setTitle("Username: " + user);
+            }
+
+            if (email == null) {
+                popupMenu.getMenu().getItem(1).setTitle("Email");
+            } else {
+                popupMenu.getMenu().getItem(1).setTitle("Email: " + email);
+            }
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.itemsignout: {
-                            signin=true;
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            //intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            finish();
-                            break;
-                        }
-                        case R.id.iteminfor:
-                        {
-                            Intent intent=new Intent(MainActivity.this,ThongtinActivity.class);
-                            intent.putExtra("username",user);
-                            intent.putExtra("email",email);
-                            intent.putExtra("signin",signin);
-                            startActivity(intent);
-                            break;
-                        }
+
 
                     }
                     return false;
@@ -208,17 +212,55 @@ public class MainActivity extends AppCompatActivity {
             popupMenu.show();
         }
     }
+
     private void Anhxa() {
-        gioithieu   = (TextView)findViewById(R.id.txtGioithieu);
-        lehoi       = (TextView)findViewById(R.id.txtLehoi);
-        trochoi     = (TextView)findViewById(R.id.txtTrochoi);
-        thamquan    = (TextView)findViewById(R.id.txtThamquan);
-        datve       = (Button)findViewById(R.id.btnDatve);
-        webView     = (WebView) findViewById(R.id.webViewHienThi);
-        bar         =(ProgressBar) findViewById(R.id.progressBar2);
-        tinnhan     =(TextView)findViewById(R.id.txtTinnhan);
-        dienthoai   =(ImageView)findViewById(R.id.imgDienthoai);
-        hambuger=(ImageView) findViewById(R.id.hambuger);
+        gioithieu = (TextView) findViewById(R.id.txtGioithieu);
+        lehoi = (TextView) findViewById(R.id.txtLehoi);
+        trochoi = (TextView) findViewById(R.id.txtTrochoi);
+        thamquan = (TextView) findViewById(R.id.txtThamquan);
+        datve = (Button) findViewById(R.id.btnDatve);
+        webView = (WebView) findViewById(R.id.webViewHienThi);
+        bar = (ProgressBar) findViewById(R.id.progressBar2);
+        tinnhan = (TextView) findViewById(R.id.txtTinnhan);
+        dienthoai = (ImageView) findViewById(R.id.imgDienthoai);
+        hambuger = (ImageView) findViewById(R.id.hambuger);
+    }
+
+    public void shareLocationFacebook() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        if (isLoggedIn) {
+
+            Double latitude = 10.7624176;
+            Double longitude = 106.6811968;
+
+            ShareDialog shareDialog = new ShareDialog(this);
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse("https://www.openstreetmap.org/#map=19/" + latitude + "/" + longitude))
+                    .build();
+
+            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                shareDialog.show(linkContent);
+            }
+        } else {
+            Toast.makeText(getApplication(), "You must be login facebook!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void Logout() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        if (isLoggedIn) {
+            LoginManager.getInstance().logOut();
+        }
+        Intent intent = getIntent();
+        signin = (Boolean) intent.getBooleanExtra("signin", false);
+        startActivity(intent);
+
+        Toast.makeText(getApplication(), "Logout successfully", Toast.LENGTH_SHORT).show();
     }
 
     public void DatveOnline() {
@@ -288,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if((keyCode==KeyEvent.KEYCODE_BACK) && webView.canGoBack()){
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
             webView.goBack();
             return true;
         }

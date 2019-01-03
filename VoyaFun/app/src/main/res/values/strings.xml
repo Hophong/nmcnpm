@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VoyaFun</string>
+    <string name="facebook_app_id">2343339842564440</string>
+    <string name="fb_login_protocol_scheme">fb2343339842564440</string>
 </resources>
