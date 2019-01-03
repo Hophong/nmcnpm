@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             user=(String)  intent.getStringExtra("username");
             email=(String) intent.getStringExtra("email");
             signin=(Boolean) intent.getBooleanExtra("signin",false);
+            if(user==null) signin=false;
         Anhxa();
         hambuger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         datve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(signin==true)
                 DatveOnline();
+                else Toast.makeText(MainActivity.this, "Vui long dang nhap de thuc hien", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -120,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
         tinnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(signin==true)
                 Tinnhan();
+                else Toast.makeText(MainActivity.this, "Vui long dang nhap de thuc hien", Toast.LENGTH_SHORT).show();
             }
 
             public void Tinnhan() {
@@ -146,14 +151,21 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.itemsignin: {
-                            signin=true;
                             Intent intent = new Intent(MainActivity.this, SigninActivity.class);
                             //intent.putExtra("signin",signin);
                             startActivity(intent);
                             finish();
                             break;
                         }
-
+                        case R.id.iteminfor:
+                        {
+                            Intent intent=new Intent(MainActivity.this,ThongtinActivity.class);
+                            intent.putExtra("username",user);
+                            intent.putExtra("email",email);
+                            intent.putExtra("signin",signin);
+                            startActivity(intent);
+                            break;
+                        }
 
                     }
                     return false;
@@ -171,7 +183,23 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
-
+                        case R.id.itemsignout: {
+                            signin=true;
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            //intent.putExtra("signin",signin);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        }
+                        case R.id.iteminfor:
+                        {
+                            Intent intent=new Intent(MainActivity.this,ThongtinActivity.class);
+                            intent.putExtra("username",user);
+                            intent.putExtra("email",email);
+                            intent.putExtra("signin",signin);
+                            startActivity(intent);
+                            break;
+                        }
 
                     }
                     return false;
@@ -195,27 +223,48 @@ public class MainActivity extends AppCompatActivity {
 
     public void DatveOnline() {
         Intent myBooking = new Intent(this, Datve.class);
+        myBooking.putExtra("username",user);
+        myBooking.putExtra("email",email);
+        myBooking.putExtra("signin",signin);
         startActivity(myBooking);
+        finish();
     }
 
     public void Gioithieu() {
-        Intent intent = new Intent(this, Gioithieu.class);
+        Intent intent = new Intent(MainActivity.this, Gioithieu.class);
+
+        intent.putExtra("username",user);
+        intent.putExtra("email",email);
+        intent.putExtra("signin",signin);
         startActivity(intent);
+        finish();
     }
 
     public void Trochoi() {
         Intent game = new Intent(this, trochoi.class);
+        game.putExtra("username",user);
+        game.putExtra("email",email);
+        game.putExtra("signin",signin);
         startActivity(game);
+        finish();
     }
 
     public void Lehoi() {
         Intent myFestival = new Intent(this, lehoi.class);
+        myFestival.putExtra("username",user);
+        myFestival.putExtra("email",email);
+        myFestival.putExtra("signin",signin);
         startActivity(myFestival);
+        finish();
     }
 
     public void Thamquan() {
         Intent myVisit = new Intent(this, Thamquan.class);
+        myVisit.putExtra("username",user);
+        myVisit.putExtra("email",email);
+        myVisit.putExtra("signin",signin);
         startActivity(myVisit);
+        finish();
     }
 
     public class myWebclient extends WebViewClient {

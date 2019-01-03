@@ -66,14 +66,14 @@ public class SigninActivity extends AppCompatActivity {
                     Intent intent1=new Intent(SigninActivity.this,MainActivity.class);
                     //intent1.putExtra("username",user);
                     //intent1.putExtra("email",email);
-                    intent1.putExtra("username",user);
                     String email=arrayUser.get(i).getEmail().toString();
+                    intent1.putExtra("username",user);
                     intent1.putExtra("email",email);
                     intent1.putExtra("signin",true);
                     edtUsername.setText("");
                     edtPassword.setText("");
                     startActivity(intent1);
-                    //finish();
+                    finish();
                 }
             }
         });

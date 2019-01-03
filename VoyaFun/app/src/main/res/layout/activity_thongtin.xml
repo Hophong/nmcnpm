@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:textSize="20dp"
+       android:text="1.Xem thông tin:\n
+-Chọn các mục giới thiệu, trò chơi, lễ hội, tham quan để xem thông tin chi tiết.\n
+2.Đặt vé:\n
+-Để thực hiện chức năng này cần phải đăng nhập.\n
+-Sau khi đăng nhập chọn chức năng đặt vé và điền thông tin cần thiết.\n
+3.Gọi điện:\n
+-Quý khách có thể sử dụng chức nănggọi điện trực tiếp để nhận được sự giúp đỡ từ nhân viên.\n
+4.Phản hồi:\n
+-Nếu có vấn đề gì vui lòng để lại phản hồi qua tính năng tin nhắn."/>
+
+</LinearLayout>
+
+
+

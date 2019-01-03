@@ -269,9 +269,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:textSize="18sp"
-                android:enabled="false"
                 android:layout_marginTop="3dp"
-                android:textColor="#0a0909"
                 android:hint="0"/>
 
             <Button

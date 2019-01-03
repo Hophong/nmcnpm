@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,9 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
-
     EditText edtUsernam_reg,edtEmail_reg,edtPassword_reg,edtPhone_reg;
-    TextView tvsignin;
     Button btnregiter;
     ArrayList<User> arrayUser=new ArrayList<>();
     String url_insertdata="https://nqphu1998.000webhostapp.com/insertdata.php";
@@ -49,7 +46,6 @@ public class SignupActivity extends AppCompatActivity {
 //            arrayUser=(ArrayList) bundle.getCharSequenceArrayList("User");
 //        }
         Anhxa();
-
         btnregiter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,16 +78,6 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
-        tvsignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(SignupActivity.this,SigninActivity.class);
-                startActivity(intent);
-
-
-            }
-        });
     }
     private  boolean checkUserName_Email(String UserName,String Email,ArrayList<User> users)
     {
@@ -107,7 +93,6 @@ public class SignupActivity extends AppCompatActivity {
         edtEmail_reg    =   (EditText) findViewById(R.id.edtEmail_reg);
         edtPassword_reg =   (EditText) findViewById((R.id.edtPassword_reg));
         edtPhone_reg    =   (EditText) findViewById((R.id.edtphone_reg));
-        tvsignin      =   (TextView) findViewById(R.id.signin);
     }
     public void ReadJson(String url)
     {

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="User"
+    <item android:title="Tên"
         android:id="@+id/itemUser"/>
     <item android:title="Email"
         android:id="@+id/itemEmail"/>
-    <item android:title="map"
+    <item android:title="Xem bản đồ"
         android:id="@+id/itemmap"/>
-    <item android:title="share location"
+    <item android:title="Chia sẽ vị tri"
         android:id="@+id/itemlocation"/>
-    <item android:title="signout"
+    <item android:title="Giá vé"
+        android:id="@+id/itemprice"/>
+    <item android:title="Dịch vụ"
+        android:id="@+id/itemservice"/>
+    <item android:title="Địa điểm yêu thích"
+        android:id="@+id/itemmylocation"/>
+    <item android:title="Thông tin ứng dụng"
+        android:id="@+id/iteminfor"/>
+    <item android:title="Đăng xuất"
         android:id="@+id/itemsignout"/>
 </menu>

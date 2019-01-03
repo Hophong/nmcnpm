@@ -29,7 +29,8 @@
         <activity android:name=".Gioithieu" />
         <activity android:name=".tinnhan" />
         <activity android:name=".SigninActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".ThongtinActivity"></activity>
     </application>
 
 </manifest>
